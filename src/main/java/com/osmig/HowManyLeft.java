@@ -16,6 +16,7 @@ public class HowManyLeft {
     private static Scanner scanner = new Scanner(System.in);
     static String marbles = " marbles";
     static int aimove = 0;
+    static int playerMove;
 
     public static int aiMove(int n){
         for(int i = 1; i<=3 ; i++){
@@ -27,6 +28,21 @@ public class HowManyLeft {
         return generator.nextInt(1, 3);
     }
 
+    public static boolean checkValidInPut(int move){
+        if (move > 0 && move <= 3){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public static int askInput(){
+        System.out.print("You: ");
+        playerMove = scanner.nextInt();// input is 1
+        scanner.nextLine();
+        return playerMove;
+    }
+
     public static void playMarbles(){
         System.out.println("\n        - Marbles game - " +
                 "\nThere are 13 marbles at start, " +
@@ -36,17 +52,23 @@ public class HowManyLeft {
         while (n > 0 ){
 
             System.out.println("\nAvailable: " + n);
-            System.out.print("You: ");
-            int playerMove = scanner.nextInt();// input is 1
+
+            do {
+                playerMove = askInput();
+            }while (checkValidInPut(playerMove) == false);
+            //playerMove = askInput();
+
+
             if(n - playerMove == 0){
                 System.out.println("You win!");
                 n = 13;
                 break;
             }
+
             n -= playerMove; // n = 12
 
             System.out.println("\nAvailable: " + n);
-            scanner.nextLine();
+
             aimove = aiMove(n);
             if(n - aimove == 0){
                 System.out.println("Dex ex machina wins!");
